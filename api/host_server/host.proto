@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+option go_package = "github.com/Tsumida/my-cmdb/api/host-server/v1";
+
+message RequestMeta{
+    int64 trace_id = 1; 
+}
+
+message ResponseMeta{
+    int64 trace_id = 1; 
+    enum ErrCode{
+        OK = 0; 
+        InternalError = 1; 
+        InvalidParameter = 2; 
+    }
+    ErrCode err_code = 2; 
+    string err_hint = 3; 
+}
+
+message HostObject{
+    string host_id = 1;
+    string os_version = 2;
+    string ip_addr = 3; 
+    enum HostStatus{
+        Unknown = 0; 
+        Healthy = 1; 
+        NotReady = 2; 
+    }
+    HostStatus status = 4; 
+
+    reserved 6 to 9; 
+}
+
+message SearchResult{
+    repeated HostObject hosts = 1;    
+}
+
+message RequestFetchAllHost{
+    RequestMeta meta = 1;
+}
+
+message ResponseFetchAllHost{
+    ResponseMeta meta = 1; 
+    SearchResult result = 2; 
+}
+
+message RequestUpdateHost{
+    RequestMeta meta = 1;
+    HostObject host = 2; 
+}
+
+message ResponseUpdateHost{
+    ResponseMeta meta = 1; 
+    HostObject host = 2; 
+}
+
+service HostManagement{
+    rpc FetchAllHost(RequestFetchAllHost) returns (ResponseFetchAllHost);
+    rpc UpdateHost(RequestUpdateHost) returns (ResponseUpdateHost);
+}
