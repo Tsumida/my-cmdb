@@ -1,8 +1,8 @@
-package hostserver
+package service
 
 import (
 	"context"
-	rpc "my-cmdb/api/host_server/gen/go"
+	rpc "my-cmdb/api/host_server"
 	"testing"
 	"time"
 
@@ -16,7 +16,6 @@ func TestHostManagerCURD(t *testing.T) {
 	//		Create 2 host object and then fetch all of them.
 	//
 	//
-
 	// init
 	hm := defaultHostManager()
 

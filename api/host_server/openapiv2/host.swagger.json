@@ -1,0 +1,226 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "my-cmdb OpenAPI doc",
+    "version": "0.1",
+    "contact": {
+      "name": "Tsumida",
+      "email": "tsumida@163.com"
+    }
+  },
+  "tags": [
+    {
+      "name": "HostManagement"
+    }
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/host-server/v1/batch-host": {
+      "get": {
+        "operationId": "HostManagement_FetchAllHost",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ResponseFetchAllHost"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "meta.traceId",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "HostManagement"
+        ]
+      }
+    },
+    "/host-server/v1/host": {
+      "post": {
+        "operationId": "HostManagement_UpdateHost",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ResponseUpdateHost"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RequestUpdateHost"
+            }
+          }
+        ],
+        "tags": [
+          "HostManagement"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "HostObject": {
+      "type": "object",
+      "properties": {
+        "hostId": {
+          "type": "string"
+        },
+        "osVersion": {
+          "type": "string"
+        },
+        "ipAddr": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/definitions/HostObjectHostStatus"
+        }
+      }
+    },
+    "HostObjectHostStatus": {
+      "type": "string",
+      "enum": [
+        "Unknown",
+        "Healthy",
+        "NotReady"
+      ],
+      "default": "Unknown"
+    },
+    "RequestMeta": {
+      "type": "object",
+      "properties": {
+        "traceId": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "RequestUpdateHost": {
+      "type": "object",
+      "properties": {
+        "meta": {
+          "$ref": "#/definitions/RequestMeta"
+        },
+        "host": {
+          "$ref": "#/definitions/HostObject"
+        }
+      }
+    },
+    "ResponseFetchAllHost": {
+      "type": "object",
+      "properties": {
+        "meta": {
+          "$ref": "#/definitions/ResponseMeta"
+        },
+        "result": {
+          "$ref": "#/definitions/SearchResult"
+        }
+      }
+    },
+    "ResponseMeta": {
+      "type": "object",
+      "properties": {
+        "traceId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "errCode": {
+          "$ref": "#/definitions/ResponseMetaErrCode"
+        },
+        "errHint": {
+          "type": "string"
+        }
+      }
+    },
+    "ResponseMetaErrCode": {
+      "type": "string",
+      "enum": [
+        "OK",
+        "InternalError",
+        "InvalidParameter"
+      ],
+      "default": "OK"
+    },
+    "ResponseUpdateHost": {
+      "type": "object",
+      "properties": {
+        "meta": {
+          "$ref": "#/definitions/ResponseMeta"
+        },
+        "host": {
+          "$ref": "#/definitions/HostObject"
+        }
+      }
+    },
+    "SearchResult": {
+      "type": "object",
+      "properties": {
+        "hosts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/HostObject"
+          }
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "typeUrl": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}

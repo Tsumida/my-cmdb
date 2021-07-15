@@ -1,7 +1,7 @@
-package hostserver
+package service
 
 import (
-	rpc "my-cmdb/api/host_server/gen/go"
+	rpc "my-cmdb/api/host_server"
 	"sync"
 )
 

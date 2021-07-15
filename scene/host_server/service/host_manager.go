@@ -1,8 +1,8 @@
-package hostserver
+package service
 
 import (
 	"context"
-	rpc "my-cmdb/api/host_server/gen/go"
+	rpc "my-cmdb/api/host_server"
 	"net"
 
 	"google.golang.org/grpc"
@@ -89,4 +89,10 @@ func defaultHostManager() *hostManager {
 	return &hostManager{
 		db: NewInMemStorage(),
 	}
+}
+
+func RunService(ctx context.Context) {
+
+	hm := defaultHostManager()
+	go hm.Serve(ctx, "localhost:8880")
 }
