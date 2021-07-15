@@ -4,7 +4,6 @@
 A cmdb written in Go.
 
 ## Arch
-
 my-cmdb is decomposed into 4 layers:
 - API gateway: offer Restful API to use scene services.
 - Scene services: service that operating resources (maintained in data-server).
@@ -20,4 +19,8 @@ others:
 - Use etcd for service registry and discovery. 
 
 ## Code Dir
-(todo)
+- `api/`: Save proto files of services and scripts. 
+- `gateway/`: grpc-gateway.
+- `scene/`: Scene servers.
+- `utils/`: something useful. 
+
